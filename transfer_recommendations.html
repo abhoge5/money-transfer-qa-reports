@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Money Transfer | Strategic Recommendations</title>
+  <style>
+    :root { color-scheme: light; --ink: #172722; --muted: #62706b; --line: #dce5df; --green: #17684d; --red: #a63c39; --amber: #92610c; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f3f6f3; color: var(--ink); font: 14px/1.5 "Trebuchet MS", Verdana, sans-serif; }
+    .topbar { height: 7px; background: #1d7658; }
+    main { max-width: 1120px; margin: 0 auto; padding: 48px 28px 64px; }
+    header { padding-bottom: 27px; border-bottom: 1px solid #cbd9d0; }
+    .eyebrow { margin: 0 0 9px; color: var(--green); font-size: 11px; font-weight: 700; text-transform: uppercase; }
+    h1 { margin: 0; font: 400 38px/1.1 Georgia, serif; }
+    .subtitle { margin: 9px 0 0; color: var(--muted); }
+    section { margin-top: 40px; }
+    h2 { margin: 0 0 13px; font: 400 23px/1.2 Georgia, serif; }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); background: #fff; }
+    table { width: 100%; min-width: 800px; border-collapse: collapse; text-align: left; }
+    th { padding: 12px 16px; background: #eaf0ec; color: #53645b; font-size: 11px; text-transform: uppercase; }
+    td { padding: 16px; border-top: 1px solid #e8eeea; vertical-align: top; }
+    tbody tr:first-child td { border-top: 0; }
+    td:first-child { white-space: nowrap; }
+    .rank { color: var(--green); font-weight: 700; }
+    .highest { color: var(--red); }
+    .high { color: var(--amber); }
+    .reference { white-space: nowrap; font-weight: 700; }
+    .severity, .focus { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
+    .action { font-weight: 700; }
+    .detail { display: block; margin-top: 5px; color: #475b51; }
+    .note { margin: 18px 0 0; color: var(--muted); font-size: 12px; }
+    a { color: var(--green); }
+    @media (max-width: 700px) { main { padding: 32px 16px 48px; } h1 { font-size: 32px; } th, td { padding: 12px; } }
+    @media print { body { background: white; } main { max-width: none; padding: 20px; } table { min-width: 0; } tr { break-inside: avoid; } }
+  </style>
+</head>
+<body>
+  <div class="topbar"></div>
+  <main>
+    <header>
+      <p class="eyebrow">Quality assurance / Mobile banking</p>
+      <h1>Money transfer recommendations</h1>
+      <p class="subtitle">Prioritized actions for reliable, secure and usable transfers</p>
+    </header>
+
+    <section aria-labelledby="priorities-title">
+      <h2 id="priorities-title">Recommended priorities</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Rank</th><th scope="col">Defect</th><th scope="col">Recommendation</th><th scope="col">Measure of improvement</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><span class="rank highest">1 &middot; Highest</span></td>
+              <td><span class="reference">TC06 / DEF-102</span><span class="severity">Major</span><span class="focus">Transaction integrity</span></td>
+              <td><span class="action">Prevent duplicate debits during retries.</span><span class="detail">Use a persistent idempotency key for each transfer and reconcile uncertain outcomes before retrying. Show the user the transaction status instead of inviting a new submission while the result is unknown.</span></td>
+              <td>Repeated network-loss and retry tests produce exactly one debit; track duplicate debits and reconciliation failures.</td>
+            </tr>
+            <tr>
+              <td><span class="rank highest">2 &middot; Highest</span></td>
+              <td><span class="reference">TC03 / DEF-101</span><span class="severity">Critical</span><span class="focus">Security and completion</span></td>
+              <td><span class="action">Improve OTP delivery without weakening verification.</span><span class="detail">Monitor delivery latency and provider failures; provide a rate-limited resend and an approved secure alternative when delivery fails. Preserve expiration and attempt limits.</span></td>
+              <td>Track OTP delivery within 60 seconds and verification completion; verify resend limits and expiration in security tests.</td>
+            </tr>
+            <tr>
+              <td><span class="rank high">3 &middot; High</span></td>
+              <td><span class="reference">TC15 / DEF-105</span><span class="severity">Major</span><span class="focus">Transaction success</span></td>
+              <td><span class="action">Improve transfer performance under peak load.</span><span class="detail">Profile the 500-user workload, remove the measured bottlenecks, and run repeatable load tests before release. Preserve transaction integrity when requests time out.</span></td>
+              <td>Meet the existing five-second response-time target at 500 users; track response times, timeouts and completed transfers.</td>
+            </tr>
+            <tr>
+              <td><span class="rank high">4 &middot; High</span></td>
+              <td><span class="reference">TC12 / DEF-104</span><span class="severity">Major</span><span class="focus">Error recovery</span></td>
+              <td><span class="action">Make beneficiary validation actionable.</span><span class="detail">Show a clear field-level error for an invalid account number, retain the entered data, and allow correction without restarting the transfer.</span></td>
+              <td>Verify the error is associated with the account field and can be corrected; track validation errors and successful corrections.</td>
+            </tr>
+            <tr>
+              <td><span class="rank">5 &middot; Medium</span></td>
+              <td><span class="reference">TC09 / DEF-103</span><span class="severity">Minor</span><span class="focus">Accessibility and usability</span></td>
+              <td><span class="action">Keep the confirmation action accessible on small screens.</span><span class="detail">Adapt the layout and scrolling so the button remains reachable, including with larger text and device keyboard navigation.</span></td>
+              <td>Verify the confirmation action is visible or reachable on five-inch screens and at supported text sizes.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Ranking considers customer and transaction impact as well as recorded severity. TC13 remains blocked until DEF-102 is fixed; rerun it after the retry fix. Source: <a href="test_results.csv">test_results.csv</a> and <a href="qa_report.html">QA test report</a>.</p>
+    </section>
+  </main>
+</body>
+</html>
